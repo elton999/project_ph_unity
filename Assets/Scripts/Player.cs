@@ -7,6 +7,7 @@ public class Player : MonoBehaviour
     [SerializeField] private float m_speedRun;
     [SerializeField] private float m_speedJump;
     [SerializeField] private float m_jumpForce = 0.5f;
+    [SerializeField] private Transform m_Sword;
     private Rigidbody2D _Rigidbody;
     private Animator _Animator;
     
