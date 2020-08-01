@@ -11,15 +11,18 @@ public class Enemy : MonoBehaviour
     [SerializeField] private float m_checkRadio;
 
     Rigidbody2D _Rigidbody;
-    Animator _Animator;
+    public Animator _Animator;
+
+    [SerializeField] public float LifeScore = 100f;
+    [SerializeField] private float DemageSwordAttack = 50f;
 
     public bool _right = true;
 
     void Start()
     {
-        transform.GetComponent<SpriteRenderer>().sprite = null;
         _Rigidbody = transform.GetComponent<Rigidbody2D>();
         _Animator = transform.GetComponent<Animator>();
+        _Animator.Play("Empty");
     }
 
 
@@ -28,34 +31,71 @@ public class Enemy : MonoBehaviour
     void Update()
     {
         if (_wasBorn && !_isIlive)
-            _Animator.SetBool("isBorning", true);    
+            _Animator.SetBool("isBorning", true);
+        if (LifeScore <= 0 && !_Animator.GetBool("isDeading"))
+            _Animator.SetBool("isDeading", true);
     }
 
     private void FixedUpdate()
     {
-        this.GuardMode();
+        if (_isDamaging) _Animator.Play("EnemyDamage", 0);
+        else this.GuardMode();
+
         this.CheckGrounded();
         this.Flip();
     }
-    
+
     private void OnBecameVisible()
     {
-        _isGuardMode = true;
-        if (!_isIlive)
-            _wasBorn = true;
+        _waitGuardMode = true;
+        Invoke("SetGuardModeOn", 1);
     }
-
+    
     private void OnBecameInvisible()
     {
-        _isGuardMode = false;
+        Invoke("SetGuardModeOff", 1);
+    }
+
+    bool _waitGuardMode = false;
+    private void SetGuardModeOff()
+    {
+        if (!_waitGuardMode)
+            _isGuardMode = false;
+    }
+
+    private void SetGuardModeOn()
+    {
+        if (!_isIlive)
+            _wasBorn = true;
+        _isGuardMode = true;
+        _waitGuardMode = false;
     }
 
     private void OnTriggerEnter2D(Collider2D collision)
     {
         if (collision.gameObject.name == "PlayerSword")
-            _Animator.SetBool("isDeading", true);
+            this.TakeDamage();
     }
 
+    bool _isDamaging = false;
+    float _timeDamage = 1;
+    public void TakeDamage(){
+        this.LifeScore -= DemageSwordAttack;
+        _Rigidbody.velocity = new Vector2(0, _Rigidbody.velocity.y);
+        _timeDamage = 0;
+
+        if (LifeScore > 0)
+        {
+            _isDamaging = true;
+            _Rigidbody.AddForce(new Vector2(100f, 100f));
+        }
+    }
+
+    public void EndDamage()
+    {
+        _isDamaging = false;
+    }
+    
     bool _isGuardMode;
     void GuardMode()
     {
@@ -67,7 +107,7 @@ public class Enemy : MonoBehaviour
                 _Rigidbody.velocity = new Vector2(-m_speedRun, _Rigidbody.velocity.y);
         }
 
-        if (_Animator.GetBool("isDeading"))
+        if (_Animator.GetBool("isDeading") || !_isGuardMode)
             _Rigidbody.velocity = new Vector2(0, _Rigidbody.velocity.y);
     }
     

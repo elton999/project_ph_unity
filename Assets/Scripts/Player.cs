@@ -67,14 +67,21 @@ public class Player : MonoBehaviour
         if (!_Animator.GetBool("isJumping"))
             _Animator.SetBool("isRunning", true);
         else
-            _Animator.SetBool("isRunnig", false);
+            _Animator.SetBool("isRunning", false);
     }
 
     private float _speed;
+    private Vector3 _lastPosition;
     void FixedUpdate()
     {   
         _Rigidbody.velocity = new Vector2(_speed, _Rigidbody.velocity.y);
 
+        if (_lastPosition != Vector3.zero && _lastPosition.y > transform.position.y && _Animator.GetBool("isJumping"))
+            _Animator.SetBool("isFalling", true);
+        else
+            _Animator.SetBool("isFalling", false);
+
+        _lastPosition = transform.position;
         this.Flip();
     }
     

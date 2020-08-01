@@ -24,7 +24,7 @@ Transform:
   m_PrefabAsset: {fileID: 0}
   m_GameObject: {fileID: 3866964989919527594}
   m_LocalRotation: {x: -0, y: -0, z: -0, w: 1}
-  m_LocalPosition: {x: 0.737, y: -0.596, z: 0}
+  m_LocalPosition: {x: 0.737, y: -0.573, z: 0}
   m_LocalScale: {x: 1, y: 1, z: 1}
   m_Children: []
   m_Father: {fileID: 3866964990703081582}
@@ -43,11 +43,12 @@ GameObject:
   - component: {fileID: 3866964990703081583}
   - component: {fileID: 3866964990703081576}
   - component: {fileID: 3866964990703081577}
-  - component: {fileID: 3866964990703081578}
+  - component: {fileID: 2658722159197836055}
+  - component: {fileID: 623467378448560921}
   m_Layer: 11
   m_Name: Troll
   m_TagString: Enemies
-  m_Icon: {fileID: 0}
+  m_Icon: {fileID: 5132851093641282708, guid: 0000000000000000d000000000000000, type: 0}
   m_NavMeshLayer: 0
   m_StaticEditorFlags: 0
   m_IsActive: 1
@@ -173,7 +174,19 @@ Rigidbody2D:
   m_SleepingMode: 1
   m_CollisionDetection: 0
   m_Constraints: 4
---- !u!114 &3866964990703081578
+--- !u!114 &2658722159197836055
+MonoBehaviour:
+  m_ObjectHideFlags: 0
+  m_CorrespondingSourceObject: {fileID: 0}
+  m_PrefabInstance: {fileID: 0}
+  m_PrefabAsset: {fileID: 0}
+  m_GameObject: {fileID: 3866964990703081580}
+  m_Enabled: 1
+  m_EditorHideFlags: 0
+  m_Script: {fileID: 11500000, guid: 37c8fe6212b50154a8db454536ca0cdb, type: 3}
+  m_Name: 
+  m_EditorClassIdentifier: 
+--- !u!114 &623467378448560921
 MonoBehaviour:
   m_ObjectHideFlags: 0
   m_CorrespondingSourceObject: {fileID: 0}
@@ -192,7 +205,10 @@ MonoBehaviour:
     serializedVersion: 2
     m_Bits: 1024
   m_checkRadio: 0.5
-  _right: 0
+  _Animator: {fileID: 0}
+  LifeScore: 100
+  DemageSwordAttack: 50
+  _right: 1
 --- !u!1 &3866964991564165909
 GameObject:
   m_ObjectHideFlags: 0
